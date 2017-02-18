@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DESWF;
+using MlkPwgen;
 
 namespace AESWPF
 {
@@ -26,9 +29,13 @@ namespace AESWPF
 
 		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
+		private void btn_GenerateKey(object sender, RoutedEventArgs e)
 		{
 
+			var pw = PasswordGenerator.Generate(length: 16, allowed: Sets.Alphanumerics);
+
+			BitArray key = new BitArray(Encoding.UTF8.GetBytes(pw));
+			tbKey.Text = ConversionService.BitArrayToString(key);
 		}
 	}
 }
