@@ -37,5 +37,17 @@ namespace AESWPF
 			BitArray key = new BitArray(Encoding.UTF8.GetBytes(pw));
 			tbKey.Text = ConversionService.BitArrayToString(key);
 		}
+
+		private void btn_Encrypt(object sender, RoutedEventArgs e)
+		{
+			var plaintext = tbPlaintext.Text;
+			var plaintextBitArray = ConversionService.StringOfBinaryLikeCharactersToBitArray(plaintext);
+			plaintextBitArray.ConvertBitArrayToByteArray();
+
+			var listOfByteBlocks = ConversionService.ConvertMessageBitArrayToListOfByteBlocks(16,
+				plaintextBitArray.ConvertBitArrayToByteArray());
+			var aesCipher = new AesCipher();
+			aesCipher.Encrypt(listOfByteBlocks);
+		}
 	}
 }

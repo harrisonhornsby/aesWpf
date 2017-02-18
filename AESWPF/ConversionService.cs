@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DESWF
@@ -16,6 +17,21 @@ namespace DESWF
 				sb.Append(Convert.ToString(c, 2).PadLeft(8, '0'));
 			}
 			return sb.ToString();
+		}
+
+		public static byte[,] ConvertByteArrayToFourByFourMatrix(this byte[] input)
+		{
+			var matrix = new byte[4,4];
+			var extractedRow = new byte[4];
+			for (int row = 0, pos = 0; row < 4; row++, pos+=4)
+			{
+				extractedRow = input.Skip(pos).Take(4).ToArray();
+				for (int col = 0; col < 4; col++)
+				{
+					matrix[row, col] = extractedRow[col];
+				}
+			}
+			return matrix;
 		}
 
 		public static string BinaryStringToText(string data)
@@ -39,7 +55,43 @@ namespace DESWF
 			return array[0];
 		}
 
-		public static BitArray StringToBitArray(string binaryString)
+		public static List<BitArray> ConvertMessageBitArrayToListOfBitBlocks(int blockSizeInBits, BitArray message)
+		{
+			var listOfBitBlocks = new List<BitArray>();
+			listOfBitBlocks.Capacity = (message.Length % blockSizeInBits != 0)
+				? (message.Count / blockSizeInBits) + 1
+				: message.Count / blockSizeInBits;
+			for (int i = 0; i < listOfBitBlocks.Capacity; i++)
+			{
+				var temp = new BitArray(blockSizeInBits);
+				for (int j = i * blockSizeInBits, k = 0; j < (i * blockSizeInBits) + blockSizeInBits && j < message.Count; j++, k++)
+				{
+					temp[k] = message[j];
+				}
+				listOfBitBlocks.Add(temp);
+			}
+			return listOfBitBlocks;
+		}
+
+		public static List<Byte[]> ConvertMessageBitArrayToListOfByteBlocks(int blockSizeInBytes, Byte[] message)
+		{
+			var listOfBitBlocks = new List<Byte[]>();
+			listOfBitBlocks.Capacity = (message.Length % blockSizeInBytes != 0)
+				? (message.Length / blockSizeInBytes) + 1
+				: message.Length / blockSizeInBytes;
+			for (int i = 0; i < listOfBitBlocks.Capacity; i++)
+			{
+				var temp = new byte[blockSizeInBytes];
+				for (int j = i * blockSizeInBytes, k = 0; j < (i * blockSizeInBytes) + blockSizeInBytes && j < message.Length; j++, k++)
+				{
+					temp[k] = message[j];
+				}
+				listOfBitBlocks.Add(temp);
+			}
+			return listOfBitBlocks;
+		}
+
+		public static BitArray StringOfBinaryLikeCharactersToBitArray(string binaryString)
 		{
 			BitArray cOutput = new BitArray(binaryString.Length);
 			var num = binaryString.Length;
@@ -60,12 +112,36 @@ namespace DESWF
 			return cOutput;
 		}
 
-		public static byte[] BitArrayToByteArray(BitArray bits)
+		public static byte[] ConvertBitArrayToByteArray(this BitArray bits)
+		{
+			int numBytes = bits.Count / 8;
+			if (bits.Count % 8 != 0) numBytes++;
+
+			byte[] bytes = new byte[numBytes];
+			int byteIndex = 0, bitIndex = 0;
+
+			for (int i = 0; i < bits.Count; i++)
+			{
+				if (bits[i])
+					bytes[byteIndex] |= (byte)(1 << (7 - bitIndex));
+
+				bitIndex++;
+				if (bitIndex == 8)
+				{
+					bitIndex = 0;
+					byteIndex++;
+				}
+			}
+
+			return bytes;
+		}
+
+		/*public static byte[] BitArrayToByteArray(BitArray bits)
 		{
 			byte[] ret = new byte[(bits.Length - 1) / 8 + 1];
 			bits.CopyTo(ret, 0);
 			return ret;
-		}
+		}*/
 
 		public static string BinaryStringToHexString(string binary)
 		{

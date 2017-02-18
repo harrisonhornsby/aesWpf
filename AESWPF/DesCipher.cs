@@ -341,7 +341,7 @@ namespace DESWF
 				binaryString += Convert.ToString(SboxList[i][row, col], 2).PadLeft(4, '0');
 			}
 
-			var cOutput = ConversionService.StringToBitArray(binaryString);
+			var cOutput = ConversionService.StringOfBinaryLikeCharactersToBitArray(binaryString);
 
 			BitArray cOutputAfterPermutation = new BitArray(32);
 			for (int i = 0; i < 32; i++)
