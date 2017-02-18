@@ -23,6 +23,12 @@ namespace AESWPF
 		public MainWindow()
 		{
 			InitializeComponent();
+
+		}
+
+		private void button_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }

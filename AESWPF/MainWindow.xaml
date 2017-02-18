@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AESWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Harrison Hornsby - AES Cipher" Height="292.81" Width="350">
+	<Window.Effect>
+		<DropShadowEffect/>
+	</Window.Effect>
+	<Grid Background="#FFF4F4F4">
+		<Border BorderBrush="#FFCBCBCB" BorderThickness="1" HorizontalAlignment="Left" Height="42" Margin="24,12,0,0" VerticalAlignment="Top" Width="297"/>
+		<Border BorderBrush="#FFCBCBCB" BorderThickness="1" HorizontalAlignment="Left" Height="75" Margin="24,61,0,0" VerticalAlignment="Top" Width="297"/>
+
+		<Button x:Name="btnGenerateKey" Content="Generate Key" HorizontalAlignment="Left" Margin="230,23,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Height="20"/>
+		<TextBox x:Name="tbKey" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="105,23,0,0"/>
+		<Label x:Name="label" Content="Key:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,21,0,0"/>
+		<Label x:Name="label1" Content="Plaintext:" HorizontalAlignment="Left" Margin="45,76,0,0" VerticalAlignment="Top"/>
+		<TextBox x:Name="tbPlaintext" HorizontalAlignment="Left" Height="34" TextWrapping="Wrap" VerticalAlignment="Top" Width="199" Margin="105,68,0,0"/>
+		<Button x:Name="btnEncrypt" Content="Encrypt" HorizontalAlignment="Left" Margin="105,106,0,0" VerticalAlignment="Top" Width="199" Click="button_Click" Height="20"/>
+		<Border BorderBrush="#FFCBCBCB" BorderThickness="1" HorizontalAlignment="Left" Height="71" Margin="24,143,0,0" VerticalAlignment="Top" Width="297"/>
+		<Label x:Name="label_Copy" Content="CipherText:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,153,0,0"/>
+		<TextBox x:Name="tbCiphertext" HorizontalAlignment="Left" Height="34" TextWrapping="Wrap" VerticalAlignment="Top" Width="199" Margin="105,149,0,0"/>
+		<Button x:Name="btnDecrypt" Content="Decrypt" HorizontalAlignment="Left" Margin="105,188,0,0" VerticalAlignment="Top" Width="199" Click="button_Click" Height="20"/>
+		<Label x:Name="label_Copy1" Content="Harrison Hornsby - ECE419" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,223,0,0" FontSize="8"/>
+
+	</Grid>
 </Window>
